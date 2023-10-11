@@ -1,0 +1,21 @@
+# package directories
+node_modules
+modules/nodejs/node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+.build
+
+# local env files
+.env
+.env*.local
+
+# code editors
+.idea
+.vscode
+*.code-workspace
+
+# miscelaneous
+.DS_Store
+coverage

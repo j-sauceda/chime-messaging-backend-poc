@@ -1,0 +1,66 @@
+org: my-organization-name
+app: chime-messaging-server
+service: chime-messaging-api
+frameworkVersion: '3'
+
+useDotenv: true
+
+package:
+  individually: true
+  patterns:
+    - '!node_modules/**'
+    - 'modules/nodejs/package.json'
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  environment:
+    CORS_ORIGINS_LIST: ${env:CORS_ORIGINS_LIST}
+    LOG_LEVEL: ${env:LOG_LEVEL}
+    NODE_ENV: ${env:NODE_ENV}
+  tracing:
+    lambda: true
+    apiGateway: true
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+  deploymentBucket:
+    name: chime-messaging-${env:ENVIRONMENT}-serverlessdeploy
+    blockPublicAccess: true
+    maxPreviousDeploymentArtifacts: 10
+    tags:
+      Name: ${env:REGION}-chime-messaging-${env:ENVIRONMENT}-${env:TEAM}
+      Environment: ${env:ENVIRONMENT}
+      Owner: ${env:OWNER}
+      Team: ${env:TEAM}
+      Application: Chime messaging
+      Micro Service: Chime messaging
+
+layers:
+  chime-messaging-server-modules-layer:
+    path: modules
+    name: ${sls:stage}-chime-messaging-server-modules-layer
+
+functions:
+  - ${file(serverlessConfig/functions.yml)}
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-esbuild
+  - serverless-version-tracker
+  - serverless-prune-versions
+  - serverless-iam-roles-per-function
+custom:
+  # Build settings for packaging
+  esbuild:
+    external:
+      [
+        '@aws-sdk/client-chime-sdk-identity',
+        '@aws-sdk/client-chime-sdk-messaging',
+        '@aws-sdk/client-sts',
+        '@types/aws-lambda',
+      ]
+    exclude: ['*']
+  prune:
+    automatic: true
+  serverless-iam-roles-per-function:
+    defaultInherit: true

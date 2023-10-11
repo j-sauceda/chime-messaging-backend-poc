@@ -1,0 +1,251 @@
+# App Instances
+
+# POST /createInstance
+createInstance:
+  handler: handlers/createInstance.handler
+  events:
+    - http:
+        path: createInstance
+        method: post
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:CreateAppInstance
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# GET /listInstances
+listInstances:
+  handler: handlers/listInstances.handler
+  events:
+    - http:
+        path: listInstances
+        method: get
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:ListAppInstances
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# DELETE /deleteInstance
+deleteInstance:
+  handler: handlers/deleteInstance.handler
+  events:
+    - http:
+        path: deleteInstance
+        method: delete
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:DeleteAppInstance
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# Users
+
+# POST /createUser
+createUser:
+  handler: handlers/createUser.handler
+  events:
+    - http:
+        path: createUser
+        method: post
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:CreateAppInstanceUser
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# POST /listUsers
+listUsers:
+  handler: handlers/listUsers.handler
+  events:
+    - http:
+        path: listUsers
+        method: post
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:ListAppInstanceUsers
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# DELETE /deleteUser
+deleteUser:
+  handler: handlers/deleteUser.handler
+  events:
+    - http:
+        path: deleteUser
+        method: delete
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:DeleteAppInstanceUser
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# Channels
+
+# POST /createChannel
+createChannel:
+  handler: handlers/createChannel.handler
+  events:
+    - http:
+        path: createChannel
+        method: post
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:CreateChannel
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# POST /listChannels
+listChannels:
+  handler: handlers/listChannels.handler
+  events:
+    - http:
+        path: listChannels
+        method: post
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:ListChannels
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# POST /joinChannel
+joinChannel:
+  handler: handlers/joinChannel.handler
+  events:
+    - http:
+        path: joinChannel
+        method: post
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:CreateChannelMembership
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# DELETE /deleteChannel
+deleteChannel:
+  handler: handlers/deleteChannel.handler
+  events:
+    - http:
+        path: deleteChannel
+        method: delete
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:DeleteChannel
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# Messages
+
+# POST /createMessage
+createMessage:
+  handler: handlers/sendMessage.handler
+  events:
+    - http:
+        path: createMessage
+        method: post
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:SendChannelMessage
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# POST /listMessages
+listMessages:
+  handler: handlers/listMessages.handler
+  events:
+    - http:
+        path: listMessages
+        method: post
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:ListChannelMessages
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# DELETE /deleteMessage
+deleteMessage:
+  handler: handlers/deleteMessage.handler
+  events:
+    - http:
+        path: deleteMessage
+        method: delete
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:DeleteChannelMessage
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# GET /getCredentials
+getCredentials:
+  handler: handlers/getCredentials.handler
+  events:
+    - http:
+        path: getCredentials
+        method: get
+        cors: true
+        request:
+          parameters:
+            querystrings:
+              appInstanceUserARN: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - sts:AssumeRole
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
+
+# GET /getSessionEndpoint
+getSessionEndpoint:
+  handler: handlers/getSessionEndpoint.handler
+  events:
+    - http:
+        path: getSessionEndpoint
+        method: get
+        cors: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - chime:GetMessagingSessionEndpoint
+      Resource: "*"
+  layers:
+    - !Ref ChimeDashmessagingDashserverDashmodulesDashlayerLambdaLayer
